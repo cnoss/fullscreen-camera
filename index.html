@@ -43,7 +43,6 @@ https://twitter.com/cnoss
 <body>
   <main class="videoWrapper">
     <video class="videoContent" controls autoplay></video>
-      <input type="file" accept="image/*" capture="camera">
   </main>
 
   <script>
@@ -56,11 +55,11 @@ https://twitter.com/cnoss
     }
 
     function getStream(type) {
-      if (!navigator.getUserMedia && !navigator.webkitGetUserMedia &&
+      /*if (!navigator.getUserMedia && !navigator.webkitGetUserMedia &&
         !navigator.mozGetUserMedia && !navigator.msGetUserMedia) {
         alert('User Media API not supported.');
         return;
-      }
+      }*/
       var constraints = {};
       constraints[type] = true;
       getUserMedia(constraints, function (stream) {
