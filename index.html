@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<!-- ############################################################################ 
+
+Fullscreen Camera Capture
+Christian Noss
+christian.noss@th-koeln.de
+https://twitter.com/cnoss
+    
+############################################################################ -->
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Fullscreen Camera Capture</title>
+  <link rel="shortcut icon" type="image/x-icon"
+    href="https://cnoss.github.io/generative-gestaltung/code/shared/img/favicon.ico">
+
+  <style>
+
+    body{
+      background-color: #000;
+    }
+    .videoWrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      display: flex;
+    }
+
+    .videoContent{
+      width: 100vw;
+    }
+  </style>
+
+</head>
+
+<body>
+  <main class="videoWrapper">
+    <video class="videoContent" controls autoplay></video>
+  </main>
+
+  <script>
+    function getUserMedia(options, successCallback, failureCallback) {
+      var api = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia || navigator.msGetUserMedia;
+      if (api) {
+        return api.bind(navigator)(options, successCallback, failureCallback);
+      }
+    }
+
+    function getStream(type) {
+      if (!navigator.getUserMedia && !navigator.webkitGetUserMedia &&
+        !navigator.mozGetUserMedia && !navigator.msGetUserMedia) {
+        alert('User Media API not supported.');
+        return;
+      }
+      var constraints = {};
+      constraints[type] = true;
+      getUserMedia(constraints, function (stream) {
+        var mediaControl = document.querySelector(type);
+        if ('srcObject' in mediaControl) {
+          mediaControl.srcObject = stream;
+          mediaControl.src = (window.URL || window.webkitURL).createObjectURL(stream);
+        } else if (navigator.mozGetUserMedia) {
+          mediaControl.mozSrcObject = stream;
+        }
+      }, function (err) {
+        alert('Error: ' + err);
+      });
+    }
+
+    getStream('video');
+  </script>
+
+</body>
+
+</html>
